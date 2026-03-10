@@ -1,15 +1,17 @@
-package com.mrgogu.resono.data.datasource.remote
-import com.mrgogu.resono.domain.model.User
-interface AuthRemoteDataSource {
-    suspend fun login(
-        email: String,
-        password: String
-    ): User
-    suspend fun signUp(
-        name: String,
-        email: String,
-        password: String
-    ): User
-    suspend fun getCurrentUser(): User?
-    suspend fun logOut()
-}
+    package com.mrgogu.resono.data.datasource.remote
+
+    import com.google.firebase.auth.FirebaseUser
+
+    interface AuthRemoteDataSource {
+        suspend fun login(
+            email: String,
+            password: String
+        ): FirebaseUser?
+        suspend fun signUp(
+            name: String,
+            email: String,
+            password: String
+        ): FirebaseUser?
+        suspend fun getCurrentUser(): FirebaseUser?
+        suspend fun logOut()
+    }
