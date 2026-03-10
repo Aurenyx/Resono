@@ -5,12 +5,12 @@ interface AuthRepository {
     suspend fun login(
         email: String,
         password: String
-    ): User
+    ): User?
     suspend fun signUp(
         name: String,
         email: String,
         password: String
-    ): User
+    ): User?
     suspend fun getCurrentUser(): User?
     suspend fun logOut()
 }
