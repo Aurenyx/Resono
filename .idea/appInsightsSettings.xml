@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.mrgogu.resono" />
+                  <option name="mobileSdkAppId" value="1:710898419066:android:e8442a1882c4a9c37182c3" />
+                  <option name="projectId" value="resono-5165e" />
+                  <option name="projectNumber" value="710898419066" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

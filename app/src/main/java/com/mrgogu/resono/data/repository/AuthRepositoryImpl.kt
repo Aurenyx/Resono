@@ -6,11 +6,20 @@ import com.mrgogu.resono.data.datasource.remote.AuthRemoteDataSource
 
 class AuthRepositoryImpl(
     private val remoteDataSource: AuthRemoteDataSource): AuthRepository {
+
     override suspend fun login(
         email: String,
         password: String
     ): User {
-        TODO("Not yet implemented")
+        val firebaseUser = remoteDataSource.login(email,password)
+
+        return firebaseUser.let {
+            User(
+                id = it.uid,
+                name = it.displayName,
+                email = it.email
+            )
+        }
     }
 
     override suspend fun signUp(
