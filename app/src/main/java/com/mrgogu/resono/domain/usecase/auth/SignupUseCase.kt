@@ -7,7 +7,7 @@ class SignupUseCase(private val repository: AuthRepository) {
         name : String,
         email: String,
         password: String
-    ):User {
+    ):User? {
         return repository.signUp(name, email , password)
     }
 }
