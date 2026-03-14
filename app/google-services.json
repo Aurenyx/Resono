@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "710898419066",
+    "project_id": "resono-5165e",
+    "storage_bucket": "resono-5165e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710898419066:android:e8442a1882c4a9c37182c3",
+        "android_client_info": {
+          "package_name": "com.mrgogu.resono"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcNag6WS5YxosGHXfRBKjAG-XyZ6JcZ5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
