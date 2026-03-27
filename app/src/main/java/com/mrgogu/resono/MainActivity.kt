@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.mrgogu.resono.ui.auth.viewmodel.LoginScreen
+import com.mrgogu.resono.ui.navigation.NavGraph
 import com.mrgogu.resono.ui.theme.ResonoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LoginScreen()
+            NavGraph()
         }
     }
 }
@@ -32,5 +33,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = false)
 @Composable
 fun GreetingPreview() {
-    LoginScreen()
+    NavGraph()
 }

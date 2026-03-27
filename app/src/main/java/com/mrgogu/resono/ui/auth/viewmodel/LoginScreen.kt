@@ -18,15 +18,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.LaunchedEffect
 
 
 
 @Composable
 fun LoginScreen(
+    onLoginSuccess: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
 ){
     val state by viewModel.state.collectAsState()
@@ -75,5 +76,12 @@ fun LoginScreen(
         state.user?.let {
             Text(text = "Welcome $it")
         }
+
+        LaunchedEffect(state.user) {
+            if (state.user != null) {
+                onLoginSuccess()
+            }
+        }
+
     }
 }
