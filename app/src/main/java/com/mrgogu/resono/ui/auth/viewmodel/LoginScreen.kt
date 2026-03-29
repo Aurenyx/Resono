@@ -69,14 +69,12 @@ fun LoginScreen(
         if(state.isLoading){
             CircularProgressIndicator()
         }
-
         state.error?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
         state.user?.let {
             Text(text = "Welcome $it")
         }
-
         LaunchedEffect(state.user) {
             if (state.user != null) {
                 onLoginSuccess()
