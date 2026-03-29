@@ -12,6 +12,6 @@
             email: String,
             password: String
         ): FirebaseUser?
-        suspend fun getCurrentUser(): FirebaseUser?
+        fun getCurrentUser(): FirebaseUser?
         suspend fun logOut()
     }

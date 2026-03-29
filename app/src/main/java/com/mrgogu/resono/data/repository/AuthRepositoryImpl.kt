@@ -42,7 +42,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun getCurrentUser(): User?  {
+    override fun getCurrentUser(): User?  {
         val firebaseUser = remoteDataSource.getCurrentUser()
 
         return firebaseUser?.let {
