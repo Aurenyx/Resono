@@ -2,6 +2,7 @@ package com.mrgogu.resono.domain.usecase.auth
 import com.mrgogu.resono.domain.model.User
 import com.mrgogu.resono.domain.repository.AuthRepository
 
+// Hilt provides repository implementation automatically.
 class LoginUseCase( private val repository: AuthRepository) {
     // Here invoke function calls the object of User class and using suspend function.
     suspend operator fun invoke(

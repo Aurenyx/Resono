@@ -8,6 +8,12 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /*
+ This tells Hilt:
+ "All dependencies provided here will live as long as the app is alive"
+ */
+
+
+/*
 Whenever someone asks for FirebaseAuth,
 give them FirebaseAuth.getInstance()
  */
