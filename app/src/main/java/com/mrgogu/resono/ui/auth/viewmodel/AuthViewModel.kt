@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrgogu.resono.domain.usecase.auth.GetCurrentUserUseCase
 import com.mrgogu.resono.domain.usecase.auth.LoginUseCase
+import com.mrgogu.resono.domain.usecase.auth.SignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val signUseCase: SignupUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase
 ) : ViewModel() {
 
@@ -43,6 +45,24 @@ class AuthViewModel @Inject constructor(
                     user = user?.email
                 )
             } catch (e: Exception) {
+                _state.value = AuthState(
+                    error = e.message
+                )
+            }
+        }
+    }
+
+    fun signUp(name: String, email: String, password: String ){
+        viewModelScope.launch {
+            _state.value= AuthState(isLoading = true)
+
+            try {
+                val user = signUseCase(name, email, password)
+                _state.value = AuthState(
+                    user = user?.email
+                )
+            }
+            catch (e: Exception){
                 _state.value = AuthState(
                     error = e.message
                 )
