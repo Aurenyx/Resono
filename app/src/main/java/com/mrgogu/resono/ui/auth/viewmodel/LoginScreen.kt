@@ -12,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
+    onNavigateToRegister: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
 ){
     val state by viewModel.state.collectAsState()
@@ -57,11 +59,20 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        //Login Button
         Button(
             onClick = {viewModel.login(email,password)},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Login")
+        }
+
+        //Register Button
+        TextButton(onClick = {
+            onNavigateToRegister() },
+            modifier = Modifier.fillMaxWidth())
+        {
+            Text("Don't have an account? Register")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
