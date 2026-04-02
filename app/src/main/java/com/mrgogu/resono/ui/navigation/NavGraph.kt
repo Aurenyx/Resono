@@ -5,6 +5,7 @@ import androidx.navigation.compose.*
 import androidx.navigation.compose.rememberNavController
 import com.mrgogu.resono.ui.auth.viewmodel.HomeScreen
 import com.mrgogu.resono.ui.auth.viewmodel.LoginScreen
+import com.mrgogu.resono.ui.auth.viewmodel.RegisterScreen
 
 @Composable
 fun NavGraph() {
@@ -25,6 +26,17 @@ fun NavGraph() {
                 }
             )
         }
+
+        composable("register") {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate("home"){
+                        popUpTo("register"){ inclusive = true}
+                    }
+                }
+            )
+        }
+
         composable("home") {
             HomeScreen()
         }
