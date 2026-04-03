@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.LaunchedEffect
-
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 
 @Composable
@@ -31,66 +31,96 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
-){
+) {
+
     val state by viewModel.state.collectAsState()
 
+    // UI state
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var localError by remember { mutableStateOf<String?>(null) }
 
-    Column(modifier = Modifier
-        .fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.Center) {
+    // Navigate after successful login
+    LaunchedEffect(state.user) {
+        if (state.user != null) {
+            onLoginSuccess()
+        }
+    }
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        // Email
         OutlinedTextField(
             value = email,
-            onValueChange = {email=it},
+            onValueChange = { email = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Password
         OutlinedTextField(
             value = password,
-            onValueChange = {password = it},
-            label = {Text("Password")},
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation(), // 🔒 hide password
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         //Login Button
         Button(
-            onClick = {viewModel.login(email,password)},
+            onClick = {
+
+                localError = null
+
+                when {
+                    email.isBlank() || password.isBlank() -> {
+                        localError = "Email and Password required"
+                    }
+
+                    else -> {
+                        viewModel.login(email, password)
+                    }
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Login")
         }
 
-        //Register Button
-        TextButton(onClick = {
-            onNavigateToRegister() },
-            modifier = Modifier.fillMaxWidth())
-        {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        //Navigate to register
+        TextButton(
+            onClick = { onNavigateToRegister() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text("Don't have an account? Register")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if(state.isLoading){
+        // 🔄 Loading
+        if (state.isLoading) {
             CircularProgressIndicator()
         }
+
+        // Local validation error
+        localError?.let {
+            Text(text = it, color = MaterialTheme.colorScheme.error)
+        }
+
+        // Backend error
         state.error?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
-        state.user?.let {
-            Text(text = "Welcome $it")
-        }
-        LaunchedEffect(state.user) {
-            if (state.user != null) {
-                onLoginSuccess()
-            }
-        }
-
     }
 }
