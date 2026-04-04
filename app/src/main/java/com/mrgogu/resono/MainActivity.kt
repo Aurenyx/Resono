@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.mrgogu.resono.ui.navigation.NavGraph
+import com.mrgogu.resono.ui.auth.viewmodel.AuthGate
 import dagger.hilt.android.AndroidEntryPoint
 
 // Required for Hilt to inject dependencies into this screen
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NavGraph()
+            AuthGate()
         }
     }
 }
@@ -25,5 +25,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = false)
 @Composable
 fun GreetingPreview() {
-    NavGraph()
+    AuthGate()
 }
