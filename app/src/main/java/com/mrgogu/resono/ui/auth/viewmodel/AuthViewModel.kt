@@ -30,9 +30,9 @@ class AuthViewModel @Inject constructor(
 
     private fun checkUserSession(){
         val user = getCurrentUserUseCase()
-        if (user != null){
-            _state.value= AuthState(user = user.email)
-        }
+        _state.value= AuthState(
+            user = user?.email,
+            isLoggedIn = user != null)
     }
 
     fun login(email: String, password: String) {
