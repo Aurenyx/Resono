@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mrgogu.resono.domain.usecase.auth.GetCurrentUserUseCase
 import com.mrgogu.resono.domain.usecase.auth.LoginUseCase
+import com.mrgogu.resono.domain.usecase.auth.LogoutUseCase
 import com.mrgogu.resono.domain.usecase.auth.SignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val signUseCase: SignupUseCase,
-    private val getCurrentUserUseCase: GetCurrentUserUseCase
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val logoutUseCase : LogoutUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AuthState())
@@ -67,6 +69,16 @@ class AuthViewModel @Inject constructor(
                     error = e.message
                 )
             }
+        }
+    }
+
+    fun logout(){
+        viewModelScope.launch {
+            _state.value = AuthState(isLoading = true)
+
+            logoutUseCase()
+
+            _state.value = AuthState()
         }
     }
 
