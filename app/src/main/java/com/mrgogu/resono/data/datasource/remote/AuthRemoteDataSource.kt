@@ -14,4 +14,14 @@
         ): FirebaseUser?
         fun getCurrentUser(): FirebaseUser?
         suspend fun logOut()
+
+        suspend fun saveUserData(
+            uid: String,
+            name: String,
+            email: String
+        )
+
+        suspend fun getUserData(
+                uid: String
+        ): Map<String, String>?
     }
