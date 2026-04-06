@@ -14,9 +14,7 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
     Column {
-        state.user.let {
-            Text("✨Welcome ${it?.name}✨")
-        }
+        Text("✨Welcome ${state.user?.name}✨")
 
         Button(onClick = {viewModel.logout()}) {
             Text("Logout")
