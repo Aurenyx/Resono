@@ -31,10 +31,9 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun checkUserSession(){
-        val user = getCurrentUserUseCase()
+        val firebaseUser = getCurrentUserUseCase()
         _state.value= AuthState(
-            user = user?.email,
-            isLoggedIn = user != null)
+            isLoggedIn = firebaseUser != null)
     }
 
     fun login(email: String, password: String) {
@@ -44,7 +43,8 @@ class AuthViewModel @Inject constructor(
             try {
                 val user = loginUseCase(email, password)
                 _state.value = AuthState(
-                    user = user?.email
+                    user = user,
+                    isLoggedIn = user != null
                 )
             } catch (e: Exception) {
                 _state.value = AuthState(
@@ -61,7 +61,8 @@ class AuthViewModel @Inject constructor(
             try {
                 val user = signUseCase(name, email, password)
                 _state.value = AuthState(
-                    user = user?.email
+                    user = user,
+                    isLoggedIn = user != null
                 )
             }
             catch (e: Exception){
