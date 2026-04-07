@@ -2,8 +2,10 @@ package com.mrgogu.resono.data.datasource.remote
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mrgogu.resono.domain.model.User
+import kotlinx.coroutines.tasks.await
 
 /*  FirebaseAuth instance is injected so this class does not create
     Firebase objects itself. This keeps the architecture flexible
@@ -43,6 +45,11 @@ class AuthRemoteDataSourceImpl(
         val user = result.user
 
         user?.let {
+            it.updateProfile(
+                UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build()
+            ).await()
             saveUserData(it.uid, name, email)
         }
 
@@ -80,19 +87,18 @@ class AuthRemoteDataSourceImpl(
             .await()
     }
 
-    override suspend fun getUserData(uid: String): Map<String, String>? {
+    override suspend fun getUserData(uid: String): User? {
         val document = firestore.collection("users")
             .document(uid)
             .get()
             .await()
 
-        val data = document.data  ?: return null
+        val data = document.data ?: return null
 
-        return mapOf(
-            "uid" to (data["uid"] as? String ?: ""),
-            "name" to (data["name"] as? String ?: ""),
-            "email" to (data["email"] as? String ?: ""),
+        return User(
+            id = data["uid"] as? String ?: uid,
+            name = data["name"] as? String ?: "",
+            email = data["email"] as? String ?: ""
         )
-
     }
 }

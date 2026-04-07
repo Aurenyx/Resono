@@ -1,6 +1,7 @@
 package com.mrgogu.resono.core.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mrgogu.resono.data.datasource.remote.AuthRemoteDataSource
 import com.mrgogu.resono.data.datasource.remote.AuthRemoteDataSourceImpl
 import dagger.Module
@@ -19,8 +20,9 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideAuthRemoteDataSource(
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore
     ): AuthRemoteDataSource {
-        return AuthRemoteDataSourceImpl(firebaseAuth)
+        return AuthRemoteDataSourceImpl(firebaseAuth, firestore)
     }
 }

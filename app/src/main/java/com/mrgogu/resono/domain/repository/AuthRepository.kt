@@ -1,4 +1,5 @@
 package com.mrgogu.resono.domain.repository
+import com.google.firebase.auth.FirebaseUser
 import com.mrgogu.resono.domain.model.User
 
 interface AuthRepository {
@@ -11,7 +12,7 @@ interface AuthRepository {
         email: String,
         password: String
     ): User?
-    fun getCurrentUser(): User?
+    fun getCurrentUser(): FirebaseUser?
     suspend fun logOut()
-
+    suspend fun getUserData(uid: String): User?
 }
