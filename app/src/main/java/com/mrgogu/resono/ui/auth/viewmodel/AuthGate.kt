@@ -1,8 +1,13 @@
 package com.mrgogu.resono.ui.auth.viewmodel
 
-
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mrgogu.resono.ui.navigation.NavGraph
 
@@ -14,17 +19,20 @@ fun AuthGate(
 
     when {
         state.isLoading -> {
-            CircularProgressIndicator()
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
 
         state.isLoggedIn -> {
-            // ✅ User already logged in
-            HomeScreen()
+            HomeScreen(viewModel = viewModel)
         }
 
         else -> {
-            // ❌ Not logged in → show login/register flow
-            NavGraph()
+            NavGraph(viewModel = viewModel)
         }
     }
 }

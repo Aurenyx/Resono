@@ -14,33 +14,28 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel
 ) {
-
     val state by viewModel.state.collectAsState()
 
-    // UI state
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var localError by remember { mutableStateOf<String?>(null) }
 
-    // Navigate after successful login
     LaunchedEffect(state.user) {
         if (state.user != null) {
             onLoginSuccess()
@@ -53,8 +48,6 @@ fun LoginScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-
-        // Email
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -64,28 +57,23 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Password
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(), // 🔒 hide password
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        //Login Button
         Button(
             onClick = {
-
                 localError = null
-
                 when {
                     email.isBlank() || password.isBlank() -> {
-                        localError = "Email and Password required"
+                        localError = "Email and password are required."
                     }
-
                     else -> {
                         viewModel.login(email, password)
                     }
@@ -98,9 +86,8 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        //Navigate to register
         TextButton(
-            onClick = { onNavigateToRegister() },
+            onClick = onNavigateToRegister,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Don't have an account? Register")
@@ -108,17 +95,14 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // 🔄 Loading
         if (state.isLoading) {
             CircularProgressIndicator()
         }
 
-        // Local validation error
         localError?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
 
-        // Backend error
         state.error?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
