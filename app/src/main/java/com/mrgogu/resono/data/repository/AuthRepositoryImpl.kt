@@ -54,4 +54,8 @@ class AuthRepositoryImpl(
     override suspend fun getUserData(uid: String): User? {
         return remoteDataSource.getUserData(uid)
     }
+
+    override suspend fun updateUserName(uid: String, name: String) {
+        remoteDataSource.updateUserName(uid,name)
+    }
 }
