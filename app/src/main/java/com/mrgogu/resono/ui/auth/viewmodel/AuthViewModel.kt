@@ -8,6 +8,7 @@ import com.mrgogu.resono.domain.usecase.auth.GetUserDataUseCase
 import com.mrgogu.resono.domain.usecase.auth.LoginUseCase
 import com.mrgogu.resono.domain.usecase.auth.LogoutUseCase
 import com.mrgogu.resono.domain.usecase.auth.SignupUseCase
+import com.mrgogu.resono.domain.usecase.auth.UpdateUserNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ class AuthViewModel @Inject constructor(
     private val signupUseCase: SignupUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val getUserDataUseCase: GetUserDataUseCase
+    private val getUserDataUseCase: GetUserDataUseCase,
+    private val updateUserNameUseCase: UpdateUserNameUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AuthState(isLoading = true))
@@ -103,6 +105,18 @@ class AuthViewModel @Inject constructor(
                     isLoading = false,
                     error = e.message ?: "Logout failed."
                 )
+            }
+        }
+    }
+
+    fun updateName(newName : String ){
+        viewModelScope.launch {
+            val firebaseUser = getCurrentUserUseCase()
+
+            firebaseUser?.let{
+                updateUserNameUseCase(it.uid,newName)
+                 val updatedUser = state.value.user?.copy(name = newName)
+                _state.value = state.value.copy(user = updatedUser)
             }
         }
     }
