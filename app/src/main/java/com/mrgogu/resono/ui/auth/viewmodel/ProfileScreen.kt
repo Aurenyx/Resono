@@ -33,6 +33,10 @@ fun ProfileScreen(
             label = { Text("Name")}
         )
 
+        Button(onClick = {viewModel.updateName(name)}) {
+            Text("Update Name")
+        }
+
 
     }
 }
