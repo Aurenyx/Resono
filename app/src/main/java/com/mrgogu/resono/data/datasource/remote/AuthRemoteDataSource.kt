@@ -26,4 +26,5 @@ interface AuthRemoteDataSource {
     )
 
     suspend fun getUserData(uid: String): User?
+    suspend fun updateUserName(uid: String, name: String)
 }
